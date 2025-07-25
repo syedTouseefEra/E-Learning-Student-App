@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:e_learning/api_service/api_service_url.dart';
 import 'package:e_learning/auth/get_providers.dart';
 import 'package:e_learning/components/custom_appbar.dart';
@@ -5,15 +8,17 @@ import 'package:e_learning/constant/palette.dart';
 import 'package:e_learning/custom_widget/button.dart';
 import 'package:e_learning/custom_widget/custom_header_view.dart';
 import 'package:e_learning/custom_widget/custom_text.dart';
-import 'package:e_learning/custom_widget/text_field.dart';
 import 'package:e_learning/feature/classes_dashboard/class_dashboard_data_model.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/assignment/assignment_params.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/assignment/assignment_provider.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/assignment/mcq_data_model.dart';
+import 'package:e_learning/utils/navigation_utils.dart';
 import 'package:e_learning/utils/text_case_utils.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class McqView extends ConsumerStatefulWidget {
   final TopicList topic;
@@ -68,6 +73,74 @@ class _McqViewState extends ConsumerState<McqView> {
     }).toList();
   }
 
+  PlatformFile? pickedFile;
+  final ImagePicker _imagePicker = ImagePicker();
+
+  void pickImage() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => Container(
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.camera_alt, color: Colors.blue),
+              title: Text('Take Photo'),
+              onTap: () async {
+                Navigator.pop(context);
+                try {
+                  final XFile? photo =
+                      await _imagePicker.pickImage(source: ImageSource.camera);
+                  if (photo != null && photo.path.isNotEmpty) {
+                    final file = File(photo.path);
+                    setState(() {
+                      pickedFile = PlatformFile(
+                        name: photo.name,
+                        path: photo.path,
+                        size: file.lengthSync(),
+                      );
+                    });
+                  }
+                } catch (e) {
+                  print('Camera error: $e');
+                }
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_library, color: Colors.blue),
+              title: Text('Choose from Gallery'),
+              onTap: () async {
+                Navigator.pop(context);
+                try {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(type: FileType.image);
+                  if (result != null && result.files.isNotEmpty) {
+                    setState(() {
+                      pickedFile = result.files.first;
+                    });
+                  }
+                } catch (e) {
+                  print('Gallery error: $e');
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  final Map<int, bool> showMathFieldMap = {};
+  void toggleMathField(int index) {
+    if (!showMathFieldMap.containsKey(index)) {
+      showMathFieldMap[index] = false;
+    }
+    showMathFieldMap[index] = showMathFieldMap[index]!;
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedClass = ref.watch(selectedClassProvider);
@@ -87,103 +160,110 @@ class _McqViewState extends ConsumerState<McqView> {
         child: Scaffold(
           backgroundColor: AppColors.white,
           appBar: CustomAppBar(enableTheming: false),
-          body: Column(
-            children: [
-              CustomHeaderView(
-                courseName: widget.topic.moduleName.toString(),
-                moduleName: widget.topic.topicName.toString(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.sp),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: AppColors.themeColor, width: 1.sp),
-                    borderRadius: BorderRadius.circular(5.sp),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomButton(
-                          text: 'MCQ',
-                          textColor: selectedTabIndex == 0
-                              ? Colors.white
-                              : Colors.green,
-                          backgroundColor: selectedTabIndex == 0
-                              ? Colors.green
-                              : Colors.white,
-                          borderColor: selectedTabIndex == 0
-                              ? Colors.transparent
-                              : Colors.green,
-                          borderWidth: selectedTabIndex == 0 ? 0 : 1,
-                          width: 180.sp,
-                          onPressed: () => setState(() => selectedTabIndex = 0),
-                        ),
-                        CustomButton(
-                          text: 'Subjective',
-                          textColor: selectedTabIndex == 0
-                              ? Colors.green
-                              : Colors.white,
-                          backgroundColor: selectedTabIndex == 0
-                              ? Colors.white
-                              : Colors.green,
-                          borderColor: selectedTabIndex == 0
-                              ? Colors.green
-                              : Colors.transparent,
-                          borderWidth: selectedTabIndex == 0 ? 1 : 0,
-                          width: 180.sp,
-                          onPressed: () => setState(() => selectedTabIndex = 1),
-                        ),
-                      ],
+          body: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Column(
+              children: [
+                CustomHeaderView(
+                  courseName: widget.topic.moduleName.toString(),
+                  moduleName: widget.topic.topicName.toString(),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.sp),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: AppColors.themeColor, width: 1.sp),
+                      borderRadius: BorderRadius.circular(5.sp),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomButton(
+                            text: 'MCQ',
+                            textColor: selectedTabIndex == 0
+                                ? Colors.white
+                                : Colors.green,
+                            backgroundColor: selectedTabIndex == 0
+                                ? Colors.green
+                                : Colors.white,
+                            borderColor: selectedTabIndex == 0
+                                ? Colors.transparent
+                                : Colors.green,
+                            borderWidth: selectedTabIndex == 0 ? 0 : 1,
+                            width: 180.sp,
+                            onPressed: () =>
+                                setState(() => selectedTabIndex = 0),
+                          ),
+                          CustomButton(
+                            text: 'Subjective',
+                            textColor: selectedTabIndex == 0
+                                ? Colors.green
+                                : Colors.white,
+                            backgroundColor: selectedTabIndex == 0
+                                ? Colors.white
+                                : Colors.green,
+                            borderColor: selectedTabIndex == 0
+                                ? Colors.green
+                                : Colors.transparent,
+                            borderWidth: selectedTabIndex == 0 ? 1 : 0,
+                            width: 180.sp,
+                            onPressed: () =>
+                                setState(() => selectedTabIndex = 1),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: mcqData.when(
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (e, _) {
-                    debugPrint("❌ API Error: $e");
-                    return const Center(child: Text("No data found"));
-                  },
-                  data: (list) {
-                    final questions = list.isNotEmpty
-                        ? List<QuestionList>.from(list[0].questionList ?? [])
-                        : <QuestionList>[];
+                Expanded(
+                  child: mcqData.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, _) {
+                      debugPrint("❌ API Error: $e");
+                      return const Center(child: Text("No data found"));
+                    },
+                    data: (list) {
+                      final questions = list.isNotEmpty
+                          ? List<QuestionList>.from(list[0].questionList ?? [])
+                          : <QuestionList>[];
 
-                    scheduleId = list[0].scheduleId ?? 0;
+                      scheduleId = list[0].scheduleId ?? 0;
 
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: questions.isEmpty
-                              ? const Center(child: Text("No questions found."))
-                              : selectedTabIndex == 0
-                                  ? _buildMCQList(
-                                      questions,
-                                      isSelected,
-                                      selectAnswer,
-                                      list,
-                                    )
-                                  : _buildSubjectiveList(questions, searchText),
-                        ),
-                        _buildSubmitSection(
-                          questions.length,
-                          context,
-                          selectedAnswers,
-                          list,
-                          scheduleId,
-                          ref,
-                        ),
-                      ],
-                    );
-                  },
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: questions.isEmpty
+                                ? const Center(
+                                    child: Text("No questions found."))
+                                : selectedTabIndex == 0
+                                    ? _buildMCQList(
+                                        questions,
+                                        isSelected,
+                                        selectAnswer,
+                                        list,
+                                      )
+                                    : _buildSubjectiveList(
+                                        questions, searchText),
+                          ),
+                          _buildSubmitSection(
+                            questions.length,
+                            context,
+                            selectedAnswers,
+                            list,
+                            scheduleId,
+                            ref,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -325,76 +405,266 @@ class _McqViewState extends ConsumerState<McqView> {
     );
   }
 
+  // Widget _buildSubjectiveList(
+  //     List<QuestionList> questions, TextEditingController controller) {
+  //   return ListView.builder(
+  //     padding: EdgeInsets.all(15.sp),
+  //     itemCount: questions.length,
+  //     itemBuilder: (context, index) {
+  //       final question = questions[index];
+  //       return Padding(
+  //         padding: EdgeInsets.only(bottom: 15.sp),
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Expanded(
+  //                   child: CustomText(
+  //                     text:
+  //                         "Q${index + 1}: ${question.question ?? 'No Question'}",
+  //                     textCase: TextCase.title,
+  //                     color: AppColors.themeColor,
+  //                     fontWeight: FontWeight.w600,
+  //                   ),
+  //                 ),
+  //                 SizedBox(width: 5.sp),
+  //                 CustomText(
+  //                   text: "Marks ${question.marks}",
+  //                   color: AppColors.yellow,
+  //                 )
+  //               ],
+  //             ),
+  //             SizedBox(height: 8.sp),
+  //             Container(
+  //               decoration: BoxDecoration(
+  //                   border:
+  //                       Border.all(color: Colors.grey.shade300, width: 1.sp)),
+  //               child: Column(
+  //                 children: [
+  //                   Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: Row(
+  //                       children: [
+  //                         CustomText(text: "Answer-"),
+  //                         Icon(Icons.functions)
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   Container(
+  //                     height: 0.5,
+  //                     color: Colors.grey,
+  //                   ),
+  //                   Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: question.studentAnswerType == 1
+  //                         ? TextField(
+  //                             decoration: InputDecoration(
+  //                               suffixIcon: Icon(Icons.clear),
+  //                               hintText: 'hint text',
+  //                               border: OutlineInputBorder(),
+  //                             ),
+  //                           )
+  //                         : CustomText(text: "text"),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             Divider(color: Colors.grey.shade300),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget _buildSubjectiveList(
       List<QuestionList> questions, TextEditingController controller) {
-    return ListView.builder(
-      padding: EdgeInsets.all(15.sp),
-      itemCount: questions.length,
-      itemBuilder: (context, index) {
-        final question = questions[index];
-        return Padding(
-          padding: EdgeInsets.only(bottom: 15.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomText(
-                      text:
-                          "Q${index + 1}: ${question.question ?? 'No Question'}",
-                      textCase: TextCase.title,
-                      color: AppColors.themeColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(width: 5.sp),
-                  CustomText(
-                    text: "Marks ${question.marks}",
-                    color: AppColors.yellow,
-                  )
-                ],
-              ),
-              SizedBox(height: 8.sp),
-              Container(
-                decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Colors.grey.shade300, width: 1.sp)),
-                child: Column(
+    final file = pickedFile;
+
+    return Expanded(
+      child: ListView.builder(
+        padding: EdgeInsets.all(15.sp),
+        itemCount: questions.length,
+        itemBuilder: (context, index) {
+          final question = questions[index];
+          return Padding(
+            padding: EdgeInsets.only(bottom: 15.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          CustomText(text: "Answer-"),
-                          Icon(Icons.functions)
-                        ],
+                    Expanded(
+                      child: CustomText(
+                        text: "Q${index + 1}: ${question.question}",
+                        textCase: TextCase.title,
+                        color: AppColors.themeColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Container(
-                      height: 0.5,
-                      color: Colors.grey,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: question.studentAnswerType == 1
-                          ? TextField(
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.clear),
-                                hintText: 'hint text',
-                                border: OutlineInputBorder(),
-                              ),
-                            )
-                          : CustomText(text: "text"),
-                    ),
+                    SizedBox(width: 5.sp),
+                    CustomText(
+                      text: question.marks.toString(),
+                      color: AppColors.yellow,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    )
                   ],
                 ),
-              ),
-              Divider(color: Colors.grey.shade300),
-            ],
-          ),
-        );
-      },
+                SizedBox(height: 8.sp),
+                Container(
+                  decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.grey.shade300, width: 1.sp)),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomText(
+                              text: "Answer-",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            SizedBox(width: 10),
+                            InkWell(
+                              // onTap: () => controller.toggleMathField(index),
+                              child: CustomText(
+                                text: "f(x)",
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.themeColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Obx(() => controller.showMathFieldMap[index]?.value == true
+                      //     ? Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: MathField(
+                      //     variables: const ['x', 'y', 'z'],
+                      //     onChanged: (value) {
+                      //       print('Math expression input: $value');
+                      //
+                      //     },
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Enter math expression',
+                      //       border: OutlineInputBorder(),
+                      //     ),
+                      //   ),
+                      // )
+                      //     : SizedBox.shrink()),
+                      Container(
+                        height: 0.5,
+                        color: Colors.grey,
+                      ),
+                      question.studentAnswerType == 2 ||
+                              question.studentAnswerType == 3
+                          ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 5.h),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 8.w, vertical: 15.h),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(8.r)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  file == null || file.path == null
+                                      ? Text('No file chosen')
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                          child: Container(
+                                            decoration: BoxDecoration(),
+                                            child: Image.file(
+                                              File(file.path!),
+                                              height: 80.h,
+                                              width: 120.w,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                  InkWell(
+                                    onTap: () => pickImage(),
+                                    child: Container(
+                                      height: 30.h,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 15.w, vertical: 5.h),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: AppColors.textGrey),
+                                        borderRadius:
+                                            BorderRadius.circular(5.r),
+                                      ),
+                                      child: Text('Upload File'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                      Padding(
+                        padding: EdgeInsets.only(left: 7.w),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.orange,
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Text('file should be in Jpg/png format (5mb)'),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: question.studentAnswerType == 1 ||
+                                question.studentAnswerType == 3
+                            ? TextField(
+                                minLines: 1,
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  hintText: 'hint text',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        BorderSide(color: AppColors.textGrey),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        BorderSide(color: AppColors.textGrey),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        BorderSide(color: AppColors.textGrey),
+                                  ),
+                                ),
+                              )
+                            : question.studentAnswerType == 2
+                                ? SizedBox()
+                                : CustomText(text: "text"),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey.shade300),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

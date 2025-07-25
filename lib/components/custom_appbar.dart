@@ -27,14 +27,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ? (isDarkMode ? Colors.grey[900]! : AppColors.white)
         : AppColors.themeColor;
 
-    final Color badgeTextColor = enableTheming ? AppColors.white : AppColors.white;
+    final Color badgeTextColor =
+        enableTheming ? AppColors.white : AppColors.white;
 
     final Color badgeBackgroundColor =
         enableTheming ? Colors.deepOrange : AppColors.yellow;
 
     return Container(
-      color: backgroundColor,
       height: height.h,
+      decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15.sp),
+              bottomRight: Radius.circular(15.sp))),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 8.sp),
         child: Row(

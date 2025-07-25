@@ -52,6 +52,9 @@ dependencies:
   chewie: ^1.11.3
   audioplayers: ^6.5.0
   flutter_pdfview: ^1.4.1+1
+  image_picker: ^1.1.2
+  file_picker: ^10.2.0
+
 
 dev_dependencies:
   flutter_test:
