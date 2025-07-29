@@ -54,6 +54,10 @@ dependencies:
   flutter_pdfview: ^1.4.1+1
   image_picker: ^1.1.2
   file_picker: ^10.2.0
+  table_calendar: ^3.2.0
+  custom_sliding_segmented_control: ^1.8.5
+  syncfusion_flutter_charts: ^29.1.38
+
 
 
 dev_dependencies:
