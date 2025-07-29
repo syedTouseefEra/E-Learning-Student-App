@@ -18,19 +18,13 @@ class DashboardQueryView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(15.sp, 8.sp, 15.sp, 5.sp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(
-                  text: "Query",
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Inter',
-                  color: AppColors.themeColor,
-                ),
-
-              ],
+            padding: EdgeInsets.fromLTRB(15.sp, 15.sp, 15.sp, 8.sp),
+            child: CustomText(
+              text: "Query",
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Inter',
+              color: AppColors.themeColor,
             ),
           ),
           Divider(color: AppColors.lightBlueBackground, thickness: 1.sp),

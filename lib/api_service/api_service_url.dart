@@ -15,6 +15,8 @@ class ApiServiceUrl{
   static String getUserRole = "User/GetUserRole";
   static String sessionDetails = "SessionDetails";
   static String loginWithInstitute = "User/LoginWithInstitute";
+
+  static String getStudentAttendanceByClgBatchSessionId = "CollegeReports/GetStudentAttendanceByClgBatchSessionId";
   static String getStudentModuleAndTopic = "Student/GetStudentModuleAndTopic";
   static String getAllPublishStudyMaterial = "StudyMaterial/GetAllPublishStudyMaterial";
   static String getStudentAttendanceByCourseId = "Attendance/getStudentAttendanceByCourseId";

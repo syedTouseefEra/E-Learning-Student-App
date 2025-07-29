@@ -2,6 +2,7 @@ import 'package:e_learning/components/custom_appbar.dart';
 import 'package:e_learning/constant/palette.dart';
 import 'package:e_learning/feature/dashboard/dashboard_data_model.dart';
 import 'package:e_learning/feature/dashboard/widgets/dashboard_assignment_view.dart';
+import 'package:e_learning/feature/dashboard/widgets/dashboard_attendance_view.dart';
 import 'package:e_learning/feature/dashboard/widgets/dashboard_calendar_view.dart';
 import 'package:e_learning/feature/dashboard/widgets/dashboard_query_view.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class DashboardView extends HookConsumerWidget {
           child: Column(
             children: [
               const CalendarView(),
+              SizedBox(height: 15.h),
+              DashboardAttendanceView(clgBatchSessionId: "178"),
               SizedBox(height: 15.h),
               const DashboardAssignmentView(),
               SizedBox(height: 15.h),
