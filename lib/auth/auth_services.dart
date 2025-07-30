@@ -305,6 +305,20 @@ class AuthService {
     );
   }
 
+  Future<http.Response> addThreadPost(
+      {required String token, required int forumId,required String title,required String body}) async {
+    final String url = '${apiCallingTypes.baseUrl}${ApiServiceUrl.addThreadPost}';
+    return await apiCallingTypes.postApiCall(
+      url: url,
+      body: {
+        'forumId': forumId,
+        'title': title,
+        'body': body,
+      },
+      token: token,
+    );
+  }
+
   Future<http.Response> addThreadComment(
       {required String token,
       required String threadComment,

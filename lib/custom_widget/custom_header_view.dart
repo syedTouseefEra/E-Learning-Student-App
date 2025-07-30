@@ -46,7 +46,7 @@ class CustomHeaderView extends StatelessWidget {
                         () {
                       NavigationHelper.pop(context);
                     },
-                child: Icon(CupertinoIcons.back),
+                child: Icon(CupertinoIcons.back,size: 22.h,),
               ),
               SizedBox(width: 5.sp),
               Expanded(

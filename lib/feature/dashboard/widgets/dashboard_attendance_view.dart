@@ -51,14 +51,14 @@ class DashboardAttendanceView extends HookConsumerWidget {
                   padding: 6.5.w,
                   children: {
                     1: CustomText(
-                      text: "Week",
-                      fontSize: 14.h,
+                      text: "  Week  ",
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: controller.isWeekView ? AppColors.white : AppColors.themeColor,
                     ),
                     2: CustomText(
-                      text: "Month",
-                      fontSize: 14.h,
+                      text: "  Month  ",
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: controller.isWeekView ? AppColors.themeColor : AppColors.white,
                     ),

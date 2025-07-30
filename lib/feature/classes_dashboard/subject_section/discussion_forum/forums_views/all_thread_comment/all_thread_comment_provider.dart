@@ -7,8 +7,6 @@ import 'package:e_learning/auth/auth_service_provider.dart';
 import 'package:e_learning/auth/get_providers.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/all_thread_comment/all_thread_comment_data_model.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/all_thread_comment/all_thread_comment_params.dart';
-import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/create_forum/create_forum_data_model.dart';
-import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/create_forum/create_forum_params.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final allThreadCommentProvider = FutureProvider.autoDispose.family<AllThreadCommentDataModel, AllThreadCommentParams>((ref, params) async {

@@ -4,7 +4,7 @@ import 'package:e_learning/custom_widget/custom_text.dart';
 import 'package:e_learning/custom_widget/text_field.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/all_thread_comment/all_thread_comment_params.dart';
 import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/all_thread_comment/all_thread_comment_provider.dart';
-import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/create_forum/create_forum_provider.dart';
+import 'package:e_learning/feature/classes_dashboard/subject_section/discussion_forum/forums_views/forum_reply/forum_reply_forum_provider.dart';
 import 'package:e_learning/utils/text_case_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -50,8 +50,6 @@ class AllThreadCommentView extends HookConsumerWidget {
                                 await ref.read(threadCommentProvider(
                                     {'threadId': threadId,'threadComment':replyText.text.toString()})
                                     .future);
-
-
 
                               } catch (e) {
                                 ScaffoldMessenger.of(context)

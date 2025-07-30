@@ -34,6 +34,7 @@ class ApiServiceUrl{
   static String likeThread = "Forum/likeThread?threadId";
   static String addThreadComment = "Forum/AddThreadComment";
   static String getAllComments = "Forum/GetAllComments";
+  static String addThreadPost = "Forum/AddThreadPost";
 
 
 }

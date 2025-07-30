@@ -1,3 +1,4 @@
+import 'package:e_learning/components/alert_view.dart';
 import 'package:e_learning/components/custom_appbar.dart';
 import 'package:e_learning/constant/palette.dart';
 import 'package:e_learning/feature/dashboard/dashboard_data_model.dart';
@@ -19,7 +20,7 @@ class DashboardView extends HookConsumerWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: const CustomAppBar(enableTheming: false),
+        appBar: CustomAppBar(enableTheming: false,),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(10.w),
           child: Column(
