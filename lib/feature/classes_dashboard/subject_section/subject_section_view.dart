@@ -43,12 +43,10 @@ class SubjectSectionView extends HookConsumerWidget {
             body: Column(
               children: [
                 CustomHeaderView(courseName: courseName.toString(), moduleName: '',),
-                SizedBox(
-                  height: 10.h,
-                ),
+
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(16.sp),
+                    padding: EdgeInsets.all(10.sp),
                     child: GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: coloredSubjectList.length,
