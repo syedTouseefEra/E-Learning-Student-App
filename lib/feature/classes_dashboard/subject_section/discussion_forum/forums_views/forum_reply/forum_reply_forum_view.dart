@@ -243,13 +243,13 @@ class ForumReplyView extends HookConsumerWidget {
                                                       const SizedBox(width: 4),
                                                       CustomText(
                                                           text:
-                                                              "Like ${thread.likeCount ?? 0}",
+                                                              "Like ${thread.likeCount == 0 ? '' : thread.likeCount?? ''}",
                                                           color: AppColors
                                                               .themeColor),
                                                     ],
                                                   ),
                                                 ),
-                                                const SizedBox(width: 16),
+                                                SizedBox(width: 15.sp),
                                                 GestureDetector(
                                                   onTap: () {
                                                     selectedThreadId.value =
