@@ -1,5 +1,4 @@
 import 'package:e_learning/auth/get_providers.dart';
-import 'package:e_learning/components/alert_view.dart';
 import 'package:e_learning/components/custom_appbar.dart';
 import 'package:e_learning/constant/palette.dart';
 import 'package:e_learning/custom_widget/button.dart';
@@ -43,7 +42,6 @@ class DiscussionForumView extends HookConsumerWidget {
             .where((forum) => forum.title!.toLowerCase().contains(query))
             .toList();
       }
-
       searchText.addListener(listener);
       return () => searchText.removeListener(listener);
     }, [searchText, discussionForumData]);
@@ -184,14 +182,12 @@ class DiscussionForumView extends HookConsumerWidget {
                               .where((forum) =>
                                   forum.title!.toLowerCase().contains(query))
                               .toList();
-
                       if (forumsToShow.isEmpty) {
                         return const Center(
                             child: CustomText(
                           text: "No Forums Available!",
                         ));
                       }
-
                       return Padding(
                         padding: EdgeInsets.all(8.h),
                         child: ListView.builder(
@@ -204,7 +200,6 @@ class DiscussionForumView extends HookConsumerWidget {
                                   context,
                                   ForumReplyView(forum: forum),
                                 );
-                                AlertView().alertToast(forum.id.toString());
                               },
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 10.sp),

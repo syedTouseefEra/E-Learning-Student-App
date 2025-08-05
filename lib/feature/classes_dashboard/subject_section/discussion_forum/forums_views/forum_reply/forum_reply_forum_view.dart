@@ -23,8 +23,8 @@ class ForumReplyView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchText = useTextEditingController();
-    final replyText = useTextEditingController();
     final filteredForums = useState<List<dynamic>>([]);
+    final replyText = useTextEditingController();
     final isReplying = useState(false);
     final selectedThreadId = useState<int?>(null);
     final isReplyTextNotEmpty = useState(false);
@@ -210,7 +210,11 @@ class ForumReplyView extends HookConsumerWidget {
                                           children: [
                                             Row(
                                               children: [
-                                                GestureDetector(
+                                                InkWell(
+                                                  splashColor:
+                                                      AppColors.transparent,
+                                                  highlightColor:
+                                                      AppColors.transparent,
                                                   onTap: () async {
                                                     try {
                                                       await ref.read(
@@ -243,14 +247,18 @@ class ForumReplyView extends HookConsumerWidget {
                                                       const SizedBox(width: 4),
                                                       CustomText(
                                                           text:
-                                                              "Like ${thread.likeCount == 0 ? '' : thread.likeCount?? ''}",
+                                                              "Like ${thread.likeCount == 0 ? '' : thread.likeCount ?? ''}",
                                                           color: AppColors
                                                               .themeColor),
                                                     ],
                                                   ),
                                                 ),
                                                 SizedBox(width: 15.sp),
-                                                GestureDetector(
+                                                InkWell(
+                                                  splashColor:
+                                                      AppColors.transparent,
+                                                  highlightColor:
+                                                      AppColors.transparent,
                                                   onTap: () {
                                                     selectedThreadId.value =
                                                         thread.id!;
