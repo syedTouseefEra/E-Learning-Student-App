@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double? borderWidth;
   final Color? borderColor;
+  final Widget? icon; // <-- new optional icon parameter
 
   const CustomButton({
     super.key,
@@ -30,6 +31,7 @@ class CustomButton extends StatelessWidget {
     this.padding,
     this.borderWidth,
     this.borderColor,
+    this.icon, // <-- include icon in constructor
   });
 
   @override
@@ -54,12 +56,22 @@ class CustomButton extends StatelessWidget {
                 : BorderSide.none,
           ),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor ?? AppColors.white,
-            fontSize: fontSize ?? 16.sp,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) ...[
+              icon!,
+              SizedBox(width: 2.w),
+            ],
+            Text(
+              text,
+              style: TextStyle(
+                color: textColor ?? AppColors.white,
+                fontSize: fontSize ?? 16.sp,
+              ),
+            ),
+          ],
         ),
       ),
     );

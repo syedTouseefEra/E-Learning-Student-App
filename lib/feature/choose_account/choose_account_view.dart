@@ -36,49 +36,51 @@ class ChooseAccountView extends HookConsumerWidget {
               enableTheming: false,
             ),
             backgroundColor: AppColors.white,
-            body: filteredData.isEmpty
-                ? const Center(child: Text("No students found"))
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.sp, vertical: 3.sp),
-                        child: CustomText(
-                          text: "Select an Account Mr. ${name.isEmpty ? "User" : name}",
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'DM Serif',
-                          color: AppColors.black,
+            body: SingleChildScrollView(
+              child: filteredData.isEmpty
+                  ? const Center(child: Text("No students found"))
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.sp, vertical: 3.sp),
+                          child: CustomText(
+                            text: "Select an Account Mr. ${name.isEmpty ? "User" : name}",
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'DM Serif',
+                            color: AppColors.black,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                        child: CustomText(
-                          text: "Choose from the list of your existing account",
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textGrey,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                          child: CustomText(
+                            text: "Choose from the list of your existing account",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textGrey,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                        child: CustomContainer(
-                          textCase: TextCase.upper,
-                          padding: 8.sp,
-                          innerPadding: EdgeInsets.symmetric(
-                              horizontal: 25.sp, vertical: 5.sp),
-                          containerColor: AppColors.yellow,
-                          text: 'Logout',
-                          fontSize: 16.sp,
-                          fontColor: AppColors.white,
-                          fontWeight: FontWeight.w600,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.sp),
+                          child: CustomContainer(
+                            textCase: TextCase.upper,
+                            padding: 8.sp,
+                            innerPadding: EdgeInsets.symmetric(
+                                horizontal: 25.sp, vertical: 5.sp),
+                            containerColor: AppColors.yellow,
+                            text: 'Logout',
+                            textColor: AppColors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: filteredData.length,
-                          padding: EdgeInsets.all(8.sp),
+                          padding: EdgeInsets.symmetric(horizontal: 15.sp),
                           itemBuilder: (context, index) {
                             final data = filteredData[index];
                             name  = data.name ?? '';
@@ -144,8 +146,8 @@ class ChooseAccountView extends HookConsumerWidget {
                                             data.instituteName?.isEmpty ?? true
                                                 ? 'NA'
                                                 : data.instituteName!,
+                                        textColor: AppColors.white,
                                         fontSize: 15.sp,
-                                        fontColor: AppColors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -161,8 +163,8 @@ class ChooseAccountView extends HookConsumerWidget {
                                               vertical: 8.sp),
                                           containerColor: AppColors.yellow,
                                           text: getInitials(data.name ?? ''),
+                                          textColor: AppColors.white,
                                           fontSize: 20.sp,
-                                          fontColor: AppColors.white,
                                           fontWeight: FontWeight.w800,
                                         ),
                                         Expanded(
@@ -195,9 +197,9 @@ class ChooseAccountView extends HookConsumerWidget {
                                             borderColor: AppColors.yellow,
                                             containerColor: AppColors.white,
                                             text: data.roleName ?? "Role",
+                                            textColor: AppColors.yellow,
                                             textAlign: TextAlign.center,
                                             fontSize: 15.sp,
-                                            fontColor: AppColors.yellow,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
@@ -224,9 +226,9 @@ class ChooseAccountView extends HookConsumerWidget {
                             );
                           },
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+            ),
           ),
         ),
       ),

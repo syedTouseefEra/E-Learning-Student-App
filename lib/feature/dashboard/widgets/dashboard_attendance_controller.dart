@@ -6,7 +6,6 @@ import 'package:e_learning/feature/dashboard/data_model/dashboard_attendance_dat
 import 'package:e_learning/user_data/user_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 final dashboardAttendanceProvider = StateNotifierProvider<AttendanceController, AsyncValue<List<DashboardAttendanceDataModel>>>(
       (ref) => AttendanceController(ref),
 );
@@ -74,5 +73,3 @@ class AttendanceController extends StateNotifier<AsyncValue<List<DashboardAttend
     fetchAttendance(clgBatchSessionId);
   }
 }
-
-

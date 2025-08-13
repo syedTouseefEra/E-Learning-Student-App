@@ -21,8 +21,7 @@ class AuthService {
     );
   }
 
-  Future<http.Response> generateOtp(
-      { required String mobileNo}) async {
+  Future<http.Response> generateOtp({required String mobileNo}) async {
     final String url = '${apiCallingTypes.baseUrl}${ApiServiceUrl.generateOtp}';
     return await apiCallingTypes.postApiCall(
       url: url,
@@ -33,7 +32,7 @@ class AuthService {
   }
 
   Future<http.Response> verifyOtp(
-      { required String mobileNo,required String otp}) async {
+      {required String mobileNo, required String otp}) async {
     final String url = '${apiCallingTypes.baseUrl}${ApiServiceUrl.verifyOtp}';
     return await apiCallingTypes.putApiCall(
       url: url,
@@ -46,7 +45,8 @@ class AuthService {
 
   Future<http.Response> forgotPassword(
       {required String token, required String newPassword}) async {
-    final String url = '${apiCallingTypes.baseUrl}${ApiServiceUrl.forgotPassword}';
+    final String url =
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.forgotPassword}';
     return await apiCallingTypes.putApiCall(
       url: url,
       body: {
@@ -111,7 +111,8 @@ class AuthService {
         "requestType": requestType.toString(),
       },
       // token: token,
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFua2l0YSIsInByaW1hcnlzaWQiOiIyNDYiLCJyb2xlIjoiNTAiLCJwcmltYXJ5Z3JvdXBzaWQiOiI2NSIsIm5iZiI6MTc1Mzc3Mjg1NywiZXhwIjoxNzUzNzkwODU3LCJpYXQiOjE3NTM3NzI4NTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSJ9.zt17y5HwXJhhrF9u1NoQrKDGGrQMMJTWDGgdlr7t9Kw",
+      token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFua2l0YSIsInByaW1hcnlzaWQiOiIyNDYiLCJyb2xlIjoiNTAiLCJwcmltYXJ5Z3JvdXBzaWQiOiI2NSIsIm5iZiI6MTc1Mzc3Mjg1NywiZXhwIjoxNzUzNzkwODU3LCJpYXQiOjE3NTM3NzI4NTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSJ9.zt17y5HwXJhhrF9u1NoQrKDGGrQMMJTWDGgdlr7t9Kw",
     );
   }
 
@@ -180,14 +181,13 @@ class AuthService {
 
   Future<http.Response> getMcQ(
       {required String token,
-        required bool isMcq,
+      required bool isMcq,
       required String courseId,
       required String topicId,
       required String moduleId,
       required String batchId}) async {
-    final String url = '${apiCallingTypes.baseUrl}${isMcq == true
-
-    ?ApiServiceUrl.getMcQ:ApiServiceUrl.getSubjective}';
+    final String url =
+        '${apiCallingTypes.baseUrl}${isMcq == true ? ApiServiceUrl.getMcQ : ApiServiceUrl.getSubjective}';
     return await apiCallingTypes.getApiCall(
       url: url,
       params: {
@@ -305,6 +305,24 @@ class AuthService {
     );
   }
 
+  Future<http.Response> addThreadPost(
+      {required String token,
+      required int forumId,
+      required String title,
+      required String body}) async {
+    final String url =
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.addThreadPost}';
+    return await apiCallingTypes.postApiCall(
+      url: url,
+      body: {
+        'forumId': forumId,
+        'title': title,
+        'body': body,
+      },
+      token: token,
+    );
+  }
+
   Future<http.Response> addThreadComment(
       {required String token,
       required String threadComment,
@@ -332,5 +350,45 @@ class AuthService {
     );
   }
 
+  Future<http.Response> likeThreadComment(
+      {required String token, required int commentId}) async {
+    final String url =
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.likeThreadComment}';
+    return await apiCallingTypes.postApiCall(
+      url: url,
+      body: {
+        'commentId': commentId,
+      },
+      token: token,
+    );
+  }
 
+  Future<http.Response> addThreadCommentReply(
+      {required String token,
+      required int commentId,
+      required String reply}) async {
+    final String url =
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.addThreadCommentReply}';
+    return await apiCallingTypes.postApiCall(
+      url: url,
+      body: {
+        'commentId': commentId,
+        'reply': reply,
+      },
+      token: token,
+    );
+  }
+
+  Future<http.Response> likeThreadCommentReply(
+      {required String token, required int replyId}) async {
+    final String url =
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.likeThreadCommentReply}';
+    return await apiCallingTypes.postApiCall(
+      url: url,
+      body: {
+        'replyId': replyId,
+      },
+      token: token,
+    );
+  }
 }

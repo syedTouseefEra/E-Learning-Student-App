@@ -1,17 +1,17 @@
 
 
 
-class CreateForumParams {
+class ForumReplyParams {
   final String forumId;
 
-  CreateForumParams({
+  ForumReplyParams({
     required this.forumId,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is CreateForumParams &&
+          other is ForumReplyParams &&
               forumId == other.forumId;
 
   @override

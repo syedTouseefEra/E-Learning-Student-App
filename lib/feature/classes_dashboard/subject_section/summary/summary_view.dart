@@ -28,6 +28,7 @@ class _SummaryViewState extends ConsumerState<SummaryView> {
         child: Scaffold(
           appBar: CustomAppBar(
             enableTheming: false,
+            showLogo: false,
           ),
           body: Column(
             children: [

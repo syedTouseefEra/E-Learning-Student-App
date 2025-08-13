@@ -1,5 +1,5 @@
 
-class CreateForumDataModel {
+class ForumReplyDataModel {
   int? id;
   String? threadTitle;
   String? threadBody;
@@ -14,7 +14,7 @@ class CreateForumDataModel {
   int? userLikeStatus;
   String? timeSinceLastReply;
 
-  CreateForumDataModel(
+  ForumReplyDataModel(
       {this.id,
         this.threadTitle,
         this.threadBody,
@@ -29,7 +29,7 @@ class CreateForumDataModel {
         this.userLikeStatus,
         this.timeSinceLastReply});
 
-  CreateForumDataModel.fromJson(Map<String, dynamic> json) {
+  ForumReplyDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     threadTitle = json['ThreadTitle'];
     threadBody = json['ThreadBody'];

@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:e_learning/components/alert_view.dart';
-import 'package:e_learning/user_data/user_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 

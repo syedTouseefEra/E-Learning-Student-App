@@ -12,8 +12,8 @@ class CustomContainer extends StatelessWidget {
   final double borderWidth;
   final Color borderColor;
   final String text;
+  final Color textColor;
   final double fontSize;
-  final Color fontColor;
   final FontWeight fontWeight;
   final TextAlign textAlign;
   final TextCase? textCase;
@@ -30,8 +30,8 @@ class CustomContainer extends StatelessWidget {
     this.borderWidth = 0.0,
     this.borderColor = Colors.transparent,
     this.text = "Educational Development",
+    this.textColor = AppColors.white,
     this.fontSize = 15.0,
-    this.fontColor = AppColors.white,
     this.fontWeight = FontWeight.w600,
     this.textAlign = TextAlign.start,
     this.textCase = TextCase.sentence,
@@ -57,8 +57,8 @@ class CustomContainer extends StatelessWidget {
           padding: innerPadding,
           child: CustomText(
             text: text,
+            color: textColor,
             fontSize: fontSize,
-            color: fontColor,
             fontWeight: fontWeight,
             textAlign: textAlign,
             textCase: textCase,
