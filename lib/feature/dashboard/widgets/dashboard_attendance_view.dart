@@ -54,17 +54,13 @@ class DashboardAttendanceView extends HookConsumerWidget {
                       text: "  Week  ",
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: controller.isWeekView
-                          ? AppColors.white
-                          : AppColors.themeColor,
+                      color: controller.isWeekView ? AppColors.white : AppColors.themeColor,
                     ),
                     2: CustomText(
                       text: "  Month  ",
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
-                      color: controller.isWeekView
-                          ? AppColors.themeColor
-                          : AppColors.white,
+                      color: controller.isWeekView ? AppColors.themeColor : AppColors.white,
                     ),
                   },
                   innerPadding: EdgeInsets.zero,
@@ -94,10 +90,7 @@ class DashboardAttendanceView extends HookConsumerWidget {
     );
   }
 
-  Widget _buildChart(
-      BuildContext context,
-      AsyncValue<List<DashboardAttendanceDataModel>> state,
-      AttendanceController controller) {
+  Widget _buildChart(BuildContext context, AsyncValue<List<DashboardAttendanceDataModel>> state, AttendanceController controller) {
     return state.when(
       data: (_) => Column(
         children: [
@@ -106,13 +99,11 @@ class DashboardAttendanceView extends HookConsumerWidget {
             children: [
               Icon(Icons.circle, color: AppColors.themeColor, size: 15.sp),
               SizedBox(width: 5.sp),
-              CustomText(
-                  text: "Present", fontSize: 14.sp, color: AppColors.black),
+              CustomText(text: "Present", fontSize: 14.sp, color: AppColors.black),
               SizedBox(width: 15.sp),
               Icon(Icons.circle, color: AppColors.red, size: 15.sp),
               SizedBox(width: 5.sp),
-              CustomText(
-                  text: "Absent", fontSize: 14.sp, color: AppColors.black),
+              CustomText(text: "Absent", fontSize: 14.sp, color: AppColors.black),
             ],
           ),
           SfCartesianChart(
@@ -129,10 +120,8 @@ class DashboardAttendanceView extends HookConsumerWidget {
                 color: const Color(0xff9F87FF),
                 dataSource: controller.presentData,
                 xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) =>
-                    data.y! > 0 ? data.y : 0.01,
-                dataLabelMapper: (ChartData data, _) =>
-                    '${data.y?.toStringAsFixed(1)}%',
+                yValueMapper: (ChartData data, _) => data.y! > 0 ? data.y : 0.01,
+                dataLabelMapper: (ChartData data, _) => '${data.y?.toStringAsFixed(1)}%',
                 dataLabelSettings: DataLabelSettings(isVisible: true),
               ),
               ColumnSeries<ChartData, String>(
@@ -140,10 +129,8 @@ class DashboardAttendanceView extends HookConsumerWidget {
                 color: const Color(0xffFF5555),
                 dataSource: controller.absentData,
                 xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) =>
-                    data.y! > 0 ? data.y : 0.01,
-                dataLabelMapper: (ChartData data, _) =>
-                    '${data.y?.toStringAsFixed(1)}%',
+                yValueMapper: (ChartData data, _) => data.y! > 0 ? data.y : 0.01,
+                dataLabelMapper: (ChartData data, _) => '${data.y?.toStringAsFixed(1)}%',
                 dataLabelSettings: DataLabelSettings(isVisible: true),
               ),
             ],
@@ -155,3 +142,4 @@ class DashboardAttendanceView extends HookConsumerWidget {
     );
   }
 }
+
