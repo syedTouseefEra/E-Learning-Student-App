@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:e_learning/auth/auth_service_provider.dart';
 import 'package:e_learning/feature/dashboard/data_model/chart_data_model.dart';
@@ -21,14 +22,13 @@ class AttendanceController extends StateNotifier<AsyncValue<List<DashboardAttend
   List<ChartData> presentData = [];
   List<ChartData> absentData = [];
 
-  Future<void> fetchAttendance(String clgBatchSessionId) async {
+  Future<void> fetchAttendance() async {
     try {
       final token = ref.read(userDataProvider).getUserData.token?.toString() ?? '';
       final authService = ref.read(authServiceProvider);
 
       final response = await authService.getDashboardAttendanceData(
         token: token,
-        clgBatchSessionId: clgBatchSessionId,
         requestType: requestType,
       );
 
@@ -67,9 +67,10 @@ class AttendanceController extends StateNotifier<AsyncValue<List<DashboardAttend
     }
   }
 
-  void toggleView(int value, String clgBatchSessionId) {
+  void toggleView(int value) {
     isWeekView = value == 1;
     requestType = value;
-    fetchAttendance(clgBatchSessionId);
+    fetchAttendance();
   }
 }
+

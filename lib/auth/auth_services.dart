@@ -98,21 +98,32 @@ class AuthService {
 
   Future<http.Response> getDashboardAttendanceData({
     required String token,
-    required String clgBatchSessionId,
     required int requestType,
   }) async {
     final String url =
-        // '${apiCallingTypes.baseUrl}${ApiServiceUrl.getStudentAttendanceByClgBatchSessionId}';
-        'https://apiapp.edumation.in/api/CollegeReports/GetStudentAttendanceByClgBatchSessionId';
+        '${apiCallingTypes.baseUrl}${ApiServiceUrl.studentGetAllCourseAttandence}';
+
     return await apiCallingTypes.getApiCall(
       url: url,
       params: {
-        "clgBatchSessionId": clgBatchSessionId,
         "requestType": requestType.toString(),
       },
-      // token: token,
-      token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFua2l0YSIsInByaW1hcnlzaWQiOiIyNDYiLCJyb2xlIjoiNTAiLCJwcmltYXJ5Z3JvdXBzaWQiOiI2NSIsIm5iZiI6MTc1Mzc3Mjg1NywiZXhwIjoxNzUzNzkwODU3LCJpYXQiOjE3NTM3NzI4NTcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzI5OSJ9.zt17y5HwXJhhrF9u1NoQrKDGGrQMMJTWDGgdlr7t9Kw",
+      token: token,
+     );
+  }
+
+  Future<http.Response> getDashboardAssignmentData({
+    required String token,
+    required int type,
+  }) async {
+    final String url =
+    '${apiCallingTypes.baseUrl}${ApiServiceUrl.studentGetAllIncompletedAssigement}';
+    return await apiCallingTypes.getApiCall(
+      url: url,
+      params: {
+        "type": type.toString(),
+      },
+      token: token,
     );
   }
 

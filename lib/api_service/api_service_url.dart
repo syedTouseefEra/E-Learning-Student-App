@@ -3,10 +3,9 @@
 
 class ApiServiceUrl{
 
-
-  static String apiBaseUrl= "https://elearningapi.edumation.in/api/";
+  // static String apiBaseUrl= "https://elearningapi.edumation.in/api/";
+  static String apiBaseUrl= "http://172.16.14.6:50/api/";
   static String urlLauncher = "https://elearningapi.edumation.in/FileUploads/";
-
 
   static String login = "User/Login";
   static String generateOtp = "User/GenerateOtp";
@@ -16,7 +15,10 @@ class ApiServiceUrl{
   static String sessionDetails = "SessionDetails";
   static String loginWithInstitute = "User/LoginWithInstitute";
 
-  static String getStudentAttendanceByClgBatchSessionId = "CollegeReports/GetStudentAttendanceByClgBatchSessionId";
+
+  static String studentGetAllIncompletedAssigement = "AssignmentSchedule/studentGetAllIncompletedAssigement";
+  static String studentGetAllCourseAttandence = "Attendance/studentGetAllCourseAttandence";
+
   static String getStudentModuleAndTopic = "Student/GetStudentModuleAndTopic";
   static String getAllPublishStudyMaterial = "StudyMaterial/GetAllPublishStudyMaterial";
   static String getStudentAttendanceByCourseId = "Attendance/getStudentAttendanceByCourseId";
